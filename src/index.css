@@ -1,0 +1,347 @@
+/* 
+   DESIGN TOKENS — DARK CINEMATIC PALETTE
+    */
+:root {
+  /* Core backgrounds */
+  --color-obsidian:        #080808;
+  --color-surface-dark:   #111111;
+  --color-surface-mid:    #181818;
+  --color-surface-raised: #202020;
+
+  /* Text */
+  --color-text-primary:   #F0EDE8;
+  --color-text-secondary: #B8B2AA;
+  --color-text-muted:     #7A7570;
+  --color-text-subtle:    #4A4542;
+
+  /* Gold accent system */
+  --color-gold:           #C8A96E;
+  --color-gold-bright:    #D4AF37;
+  --color-gold-dim:       #8A7250;
+  --color-gold-glow:      rgba(200, 169, 110, 0.15);
+  --color-gold-border:    rgba(200, 169, 110, 0.25);
+
+  /* Cream / warm white for light sections */
+  --color-cream:          #FAF8F5;
+  --color-pearl:          #F5F2ED;
+  --color-champagne:      #F7EEDD;
+
+  /* Borders */
+  --color-border:         rgba(255, 255, 255, 0.08);
+  --color-border-gold:    rgba(200, 169, 110, 0.2);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-serif:   'Playfair Display', Georgia, serif;
+  --font-sans:    'Inter', system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-soft:  0 2px 20px rgba(0, 0, 0, 0.4);
+  --shadow-card:  0 8px 40px rgba(0, 0, 0, 0.5);
+  --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.6);
+  --shadow-gold:  0 4px 30px rgba(200, 169, 110, 0.25);
+  --shadow-glow:  0 0 60px rgba(200, 169, 110, 0.12);
+
+  /* Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.25s;
+  --duration-base: 0.45s;
+  --duration-slow: 0.8s;
+}
+
+/* 
+   RESET & BASE
+    */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-obsidian);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 
+   SCROLLBAR
+    */
+::-webkit-scrollbar        { width: 4px; }
+::-webkit-scrollbar-track  { background: var(--color-obsidian); }
+::-webkit-scrollbar-thumb  { background: var(--color-gold-dim); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
+
+/* 
+   FOCUS
+    */
+:focus-visible {
+  outline: 1.5px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* 
+   REDUCED MOTION
+    */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 
+   TYPOGRAPHY SCALE
+    */
+
+/* Editorial display — Cormorant Garamond, massive */
+.text-display {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+/* Hero headline — Playfair */
+.text-hero {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+/* Section title */
+.text-section {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+/* Eyebrow labels */
+.text-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* Body copy */
+.text-body {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+/* 
+   GOLD DIVIDER
+    */
+.gold-divider {
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  margin: 1.25rem 0;
+}
+
+.gold-divider--center {
+  margin: 1.25rem auto;
+}
+
+/* 
+   NAVIGATION
+    */
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  position: relative;
+  transition: color var(--duration-base);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-gold);
+  transition: width var(--duration-base) var(--ease-out-expo);
+}
+
+.nav-link:hover { color: var(--color-gold); }
+.nav-link:hover::after { width: 100%; }
+
+/* 
+   CARDS & SURFACES
+    */
+.glass-card {
+  background: rgba(17, 17, 17, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--color-border);
+}
+
+.product-card {
+  background: var(--color-surface-dark);
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow var(--duration-base) var(--ease-out-expo),
+              transform var(--duration-base) var(--ease-out-expo);
+  border: 1px solid var(--color-border);
+}
+
+.product-card:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-6px);
+  border-color: var(--color-border-gold);
+}
+
+/* Image placeholder for development */
+.img-placeholder {
+  width: 100%;
+  background: var(--color-surface-mid);
+  border: 1px dashed var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2rem;
+  text-align: center;
+}
+
+.img-placeholder svg {
+  opacity: 0.3;
+}
+
+/* 
+   SECTION LAYOUT HELPERS
+    */
+.section-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+}
+
+.section-padding {
+  padding: clamp(5rem, 10vw, 9rem) 0;
+}
+
+/* 
+   HORIZONTAL SCROLL (marquee base)
+    */
+.marquee-track {
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 0;
+  animation: marquee-scroll 30s linear infinite;
+  flex-shrink: 0;
+}
+
+.marquee-content--reverse {
+  animation: marquee-scroll-reverse 32s linear infinite;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marquee-scroll-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* 
+   VERTICAL TESTIMONIAL MARQUEE
+    */
+@keyframes vertical-marquee-up {
+  0%   { transform: translateY(0%); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes vertical-marquee-down {
+  0%   { transform: translateY(-50%); }
+  100% { transform: translateY(0%); }
+}
+
+.testimonial-track-up {
+  animation: vertical-marquee-up 34s linear infinite;
+}
+
+.testimonial-track-down {
+  animation: vertical-marquee-down 40s linear infinite;
+}
+
+.testimonial-column:hover .testimonial-track-up,
+.testimonial-column:hover .testimonial-track-down {
+  animation-play-state: paused;
+}
+
+/* UTILITY */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 
+   RESPONSIVE BREAKPOINTS
+    */
+@media (max-width: 900px) {
+  .hide-mobile { display: none !important; }
+  .show-mobile { display: flex !important; }
+}
+
+@media (max-width: 640px) {
+  .text-display { font-size: clamp(3rem, 14vw, 5rem); }
+  .section-padding { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+}
