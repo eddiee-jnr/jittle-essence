@@ -88,7 +88,6 @@ export default function Footer() {
                 { label: 'Home', href: '#' },
                 { label: 'About Us', href: '#story' },
                 { label: 'Collections', href: '#collection' },
-                { label: 'Featured Brands', href: '#brands' },
                 { label: 'Contact', href: '#contact' },
               ].map((link) => (
                 <li key={link.label}>
@@ -126,11 +125,10 @@ export default function Footer() {
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {[
-                { label: 'Authenticity Guarantee', href: '#story' },
-                { label: 'Shipping & Delivery Info', href: '#contact' },
                 { label: 'Custom Perfume Sourcing', href: '#contact' },
-                { label: 'Chat on WhatsApp', href: getWhatsAppInquiryUrl(), external: true },
                 { label: 'Gift Packaging Service', href: '#contact' },
+                { label: 'Chat on WhatsApp', href: getWhatsAppInquiryUrl(), external: true, icon: 'whatsapp', },
+                { label: '+233 54 755 0593', href: 'tel:+233547550593', icon: 'phone', },
               ].map((item) => (
                 <li key={item.label}>
                   <a
@@ -138,6 +136,9 @@ export default function Footer() {
                     target={item.external ? '_blank' : undefined}
                     rel={item.external ? 'noopener noreferrer' : undefined}
                     style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.45rem',
                       fontFamily: 'var(--font-sans)',
                       fontSize: '0.86rem',
                       color: '#656057',
@@ -147,7 +148,16 @@ export default function Footer() {
                     onMouseEnter={(e) => (e.currentTarget.style.color = '#151311')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '#656057')}
                   >
-                    {item.label}
+                    {item.icon === 'whatsapp' && (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" style={{ flexShrink: 0 }}>
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.058-2.126-.531-1.825-.753-2.999-2.613-3.09-2.735-.091-.121-.737-.981-.737-1.87 0-.89.467-1.327.633-1.509.167-.182.366-.228.489-.228.122 0 .245.002.35.007.112.006.262-.043.41.312.152.365.518 1.267.564 1.359.046.091.077.198.016.32-.061.122-.092.198-.183.305-.091.106-.192.238-.274.32-.091.091-.187.19-.08.374.106.183.473.78 1.014 1.263.696.621 1.282.814 1.465.906.183.091.29.076.396-.046.106-.122.456-.533.578-.716.121-.182.244-.152.41-.091.167.061 1.06.5 1.243.591.183.091.305.137.35.213.045.076.045.441-.099.846z" />
+                        <path d="M12 2C6.486 2 2 6.486 2 12c0 1.846.505 3.577 1.382 5.064L2.05 21.95l5.02-1.317C8.508 21.464 10.198 22 12 22c5.514 0 10-4.486 10-10S17.514 2 12 2zm0 18c-1.636 0-3.167-.47-4.469-1.28l-.321-.202-3.084.81.823-3.007-.22-.35C3.864 14.654 3.333 13.364 3.333 12c0-4.779 3.888-8.667 8.667-8.667 4.778 0 8.667 3.888 8.667 8.667 0 4.779-3.889 8.667-8.667 8.667z" />
+                      </svg>
+                    )}
+                    {item.icon === 'phone' && (
+                      <span style={{ fontSize: '0.82rem', flexShrink: 0 }}>📞</span>
+                    )}
+                    <span>{item.label}</span>
                   </a>
                 </li>
               ))}

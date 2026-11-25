@@ -11,7 +11,7 @@ export default function ContactCTA() {
       id="contact"
       style={{
         position: 'relative',
-        background: '#F6F4EE', // Off-white luxury cream matching inspo
+        background: '#F6F4EE', 
         color: '#151311',
         padding: 'clamp(5.5rem, 8vw, 8rem) 0',
         overflow: 'hidden',
@@ -27,7 +27,7 @@ export default function ContactCTA() {
             alignItems: 'center',
           }}
         >
-          {/* ── Left Column: WhatsApp-First Instagram-Ad Style CTA ── */}
+          {/* Left Column: WhatsApp-First Instagram-Ad Style CTA */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -65,7 +65,7 @@ export default function ContactCTA() {
                   fontWeight: 700,
                   letterSpacing: '0.18em',
                   textTransform: 'uppercase',
-                  color: '#124B43',
+                  color: '#15803D',
                 }}
               >
                 CHAT WITH US ON WHATSAPP · FAST REPLY
@@ -105,7 +105,7 @@ export default function ContactCTA() {
               Order directly on WhatsApp. Chat with us to ask questions, check available perfumes, and enjoy same-day doorstep delivery in Accra or fast shipping across Ghana.
             </p>
 
-            {/* ── Main WhatsApp Action Buttons (Instagram-Ad High Conversion) ── */}
+            {/* Main WhatsApp Action Buttons (Instagram-Ad High Conversion) */}
             <div
               style={{
                 display: 'flex',
@@ -132,20 +132,20 @@ export default function ContactCTA() {
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                   textDecoration: 'none',
-                  background: '#124B43', // Deep Emerald / Green
+                  background: '#24b559ff', 
                   color: '#FFFFFF',
-                  boxShadow: '0 8px 25px rgba(18, 75, 67, 0.3)',
-                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 16px rgba(37, 211, 102, 0.22)',
+                  transition: 'all 0.25s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#0E3B35';
+                  e.currentTarget.style.background = '#20BD5A';
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(18, 75, 67, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.32)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#124B43';
+                  e.currentTarget.style.background = '#25D366';
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(18, 75, 67, 0.3)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(37, 211, 102, 0.22)';
                 }}
               >
                 {/* WhatsApp Logo */}
@@ -158,7 +158,7 @@ export default function ContactCTA() {
 
               {/* Secondary Call Action */}
               <a
-                href={`tel:+${STORE_WHATSAPP_PHONE}`}
+                href={`tel:+${STORE_WHATSAPP_PHONE.replace(/\D/g, '')}`}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -177,8 +177,8 @@ export default function ContactCTA() {
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#124B43';
-                  e.currentTarget.style.color = '#124B43';
+                  e.currentTarget.style.borderColor = '#25D366';
+                  e.currentTarget.style.color = '#15803D';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.12)';
@@ -206,7 +206,7 @@ export default function ContactCTA() {
             </div>
           </motion.div>
 
-          {/* ── Right Column: Botanical Sculptural Composition ── */}
+          {/* Right Column: Botanical Sculptural Composition */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}

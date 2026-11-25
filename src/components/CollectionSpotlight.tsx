@@ -431,7 +431,7 @@ function CarouselCard({ product, index }: { product: Product; index: number }) {
             fontSize: '0.74rem',
             fontWeight: 600,
             letterSpacing: '0.06em',
-            color: isCardHovered ? '#124B43' : '#3E3B36',
+            color: isCardHovered ? '#15803D' : '#3E3B36',
             textDecoration: 'none',
             transition: 'color 0.2s ease',
           }}

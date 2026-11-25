@@ -1,5 +1,5 @@
 
-export const STORE_WHATSAPP_PHONE = '233200000000';
+export const STORE_WHATSAPP_PHONE = '+233 54 580 6882';
 
 export interface OrderableProduct {
   name: string;
@@ -9,9 +9,7 @@ export interface OrderableProduct {
   priceGHS: number;
 }
 
-/**
- * Generates a pre-filled direct WhatsApp purchase link for an individual fragrance.
- */
+/**pre-filled direct WhatsApp purchase link for an individual fragrance.*/
 export function getWhatsAppOrderUrl(product: OrderableProduct): string {
   const sizeSpec =
     product.size && product.concentration
@@ -28,16 +26,16 @@ export function getWhatsAppOrderUrl(product: OrderableProduct): string {
     `Please confirm availability and delivery timeframe to my location.`,
   ].join('\n');
 
-  return `https://wa.me/${STORE_WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+  const cleanPhone = STORE_WHATSAPP_PHONE.replace(/\D/g, '');
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 }
 
-/**
- * Generates a pre-filled direct WhatsApp concierge inquiry link.
- */
+/** a pre-filled direct WhatsApp concierge inquiry link. */
 export function getWhatsAppInquiryUrl(customMessage?: string): string {
   const defaultText =
     customMessage ||
-    `Hello Jittle Essence, I would like to inquire about your authentic fragrances and today's available stock catalogue.`;
+    `Hello Jittle Essence, I would like to inquire about your fragrances and today's available stocks.`;
 
-  return `https://wa.me/${STORE_WHATSAPP_PHONE}?text=${encodeURIComponent(defaultText)}`;
+  const cleanPhone = STORE_WHATSAPP_PHONE.replace(/\D/g, '');
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(defaultText)}`;
 }
