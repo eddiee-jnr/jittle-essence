@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'framer-motion';
 
 const NAV_LINKS = [
@@ -19,25 +19,31 @@ export default function Navbar() {
     setScrolled(latest > 50);
   });
 
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.classList.add('mobile-nav-open');
+    } else {
+      document.body.classList.remove('mobile-nav-open');
+    }
+    return () => {
+      document.body.classList.remove('mobile-nav-open');
+    };
+  }, [menuOpen]);
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
-      {/* ── Main Navbar ── */}
+      {/* Main Navbar */}
       <motion.header
         id="navbar"
         initial={{ y: -70, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
           background: scrolled ? 'rgba(8, 8, 8, 0.92)' : 'rgba(8, 8, 8, 0.4)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
           borderBottom: scrolled ? '1px solid rgba(200, 169, 110, 0.15)' : '1px solid rgba(255, 255, 255, 0.05)',
           transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
@@ -45,50 +51,37 @@ export default function Navbar() {
         <div className="section-container">
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              height: '84px',
+              display: 'flex',alignItems: 'center',
+              justifyContent: 'space-between', height: '84px',
             }}
           >
-            {/* ── Logo (Crest + Luxury Wordmark) ── */}
+            {/* Logo (Crest + Luxury Wordmark) */}
             <a
-              href="#"
-              id="nav-logo"
-              aria-label="Jittle Essence — Home"
+              href="#" id="nav-logo" aria-label="Jittle Essence — Home"
               style={{
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.85rem',
+                textDecoration: 'none', display: 'inline-flex',
+                alignItems: 'center', gap: '0.85rem',
               }}
             >
               <img
                 src="/images/logo-navbar.webp"
                 alt="Jittle Essence Crest"
                 style={{
-                  width: '42px',
-                  height: '42px',
-                  objectFit: 'contain',
+                  width: '42px', height: '42px',objectFit: 'contain',
                   filter: 'drop-shadow(0 2px 8px rgba(200, 169, 110, 0.25))',
                 }}
               />
               <div
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  letterSpacing: '0.18em',
-                  lineHeight: 1.1,
+                  display: 'flex', flexDirection: 'column',
+                  letterSpacing: '0.18em', lineHeight: 1.1,
                 }}
               >
                 <span
                   style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '1.65rem',
-                    fontWeight: 600,
-                    color: 'var(--color-gold)',
-                    letterSpacing: '0.16em',
-                    textTransform: 'uppercase',
+                    fontFamily: 'var(--font-display)', fontSize: '1.65rem',
+                    fontWeight: 600, color: 'var(--color-gold)',
+                    letterSpacing: '0.16em', textTransform: 'uppercase',
                   }}
                 >
                   JITTLE
@@ -110,7 +103,7 @@ export default function Navbar() {
               </div>
             </a>
 
-            {/* ── Center Desktop Nav Links ── */}
+            {/* Center Desktop Nav Links */}
             <nav
               aria-label="Main navigation"
               style={{
@@ -153,9 +146,9 @@ export default function Navbar() {
               })}
             </nav>
 
-            {/* ── Right: Search Action & Mobile Toggle ── */}
+            {/* Right: Search Action & Mobile Toggle */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-              {/* Search button like reference */}
+              {/* Search button */}
               <button
                 type="button"
                 id="nav-search-btn"
@@ -166,21 +159,11 @@ export default function Navbar() {
                 className="hide-mobile"
                 aria-label="Search fragrances"
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.55rem',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.74rem',
-                  fontWeight: 500,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: 'var(--color-text-primary)',
-                  transition: 'color 0.3s ease',
-                  padding: '0.4rem 0.2rem',
-                }}
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  display: 'flex',alignItems: 'center',gap: '0.55rem',
+                  fontFamily: 'var(--font-sans)',fontSize: '0.74rem',
+                  fontWeight: 500,letterSpacing: '0.2em',textTransform: 'uppercase',
+                  color: 'var(--color-text-primary)',transition: 'color 0.3s ease',padding: '0.4rem 0.2rem',}}                
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-gold)')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text-primary)')}
               >
@@ -235,97 +218,61 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-
-        {/* ── Mobile Full-Screen Menu ── */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              id="mobile-menu"
-              role="dialog"
-              aria-label="Mobile navigation"
-              initial={{ opacity: 0, y: -15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                position: 'fixed',
-                inset: 0,
-                top: '84px',
-                background: 'rgba(8, 8, 8, 0.98)',
-                backdropFilter: 'blur(25px)',
-                WebkitBackdropFilter: 'blur(25px)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '2rem',
-                zIndex: 99,
-                borderTop: '1px solid rgba(200, 169, 110, 0.15)',
-              }}
-            >
-              {NAV_LINKS.map((link, i) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => {
-                    setActiveLink(link.label);
-                    closeMenu();
-                  }}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.35 }}
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.25em',
-                    textTransform: 'uppercase',
-                    color: activeLink === link.label ? 'var(--color-gold)' : 'var(--color-text-primary)',
-                    textDecoration: 'none',
-                    transition: 'color 0.3s',
-                  }}
-                >
-                  {link.label}
-                </motion.a>
-              ))}
-
-              <div className="gold-divider gold-divider--center" style={{ width: '60px' }} />
-
-              <button
-                type="button"
-                onClick={() => {
-                  closeMenu();
-                  const searchEl = document.getElementById('collection');
-                  if (searchEl) searchEl.scrollIntoView({ behavior: 'smooth' });
-                }}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'var(--color-gold)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.6rem',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                SEARCH
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.header>
 
       {/* Spacer matching 84px height */}
       <div style={{ height: '84px' }} aria-hidden="true" />
+
+      {/* Mobile Full-Screen Menu (Rendered outside transformed header) */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            id="mobile-menu"
+            className="mobile-nav-drawer"
+            role="dialog"
+            aria-label="Mobile navigation"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {NAV_LINKS.map((link, i) => (
+              <motion.a
+                key={link.label}
+                href={link.href}
+                className={`mobile-nav-link ${activeLink === link.label ? 'active' : ''}`}
+                onClick={() => {
+                  setActiveLink(link.label);
+                  closeMenu();
+                }}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05, duration: 0.3 }}
+              >
+                {link.label}
+              </motion.a>
+            ))}
+
+            <div className="gold-divider gold-divider--center" style={{ width: '60px' }} />
+
+            <button
+              type="button"
+              className="mobile-nav-search-btn"
+              onClick={() => {
+                closeMenu();
+                const searchEl = document.getElementById('collection');
+                if (searchEl) searchEl.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span>SEARCH</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

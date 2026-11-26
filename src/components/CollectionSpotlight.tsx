@@ -223,6 +223,7 @@ export default function CollectionSpotlight() {
           {/* ── Scrollable Track (6 Slides) ── */}
           <div
             ref={scrollContainerRef}
+            className="carousel-snap-track"
             style={{
               display: 'flex',
               gap: '1.8rem',

@@ -64,26 +64,66 @@ export default function TiltGallery() {
     return () => cancelAnimationFrame(animationFrameId);
   }, [isDragging, isHovered, rawRotation]);
 
-  // Drag interaction handlers
+  // Drag interaction handlers with gesture disambiguation (allows vertical page scrolling)
   const dragStartX = useRef(0);
+  const dragStartY = useRef(0);
   const rotationAtDragStart = useRef(0);
+  const gestureIntent = useRef<'vertical' | 'horizontal' | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent) => {
-    setIsDragging(true);
     dragStartX.current = e.clientX;
+    dragStartY.current = e.clientY;
     rotationAtDragStart.current = rawRotation.get();
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    gestureIntent.current = null;
+
+    if (e.pointerType === 'mouse') {
+      setIsDragging(true);
+      (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    }
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDragging) return;
     const deltaX = e.clientX - dragStartX.current;
-    rawRotation.set(rotationAtDragStart.current + deltaX * 0.35);
+    const deltaY = e.clientY - dragStartY.current;
+
+    // Determine gesture intent on touch devices
+    if (!gestureIntent.current) {
+      const absX = Math.abs(deltaX);
+      const absY = Math.abs(deltaY);
+
+      if (absX > 6 || absY > 6) {
+        if (absY > absX) {
+          // User is scrolling vertically -> allow native page scroll with zero interference
+          gestureIntent.current = 'vertical';
+          return;
+        } else {
+          // User is dragging horizontally -> engage 3D turntable spin
+          gestureIntent.current = 'horizontal';
+          setIsDragging(true);
+          try {
+            (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+          } catch {}
+        }
+      } else {
+        return;
+      }
+    }
+
+    if (gestureIntent.current === 'vertical') {
+      return;
+    }
+
+    if (gestureIntent.current === 'horizontal' || isDragging) {
+      rawRotation.set(rotationAtDragStart.current + deltaX * 0.35);
+    }
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
     setIsDragging(false);
-    (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
+    gestureIntent.current = null;
+    try {
+      (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
+    } catch {}
   };
 
   // Click card to bring it front & center
@@ -147,6 +187,7 @@ export default function TiltGallery() {
         {/* 3D Tilt Turntable Stage Container (Shifted up slightly) */}
         <div
           ref={containerRef}
+          className="gallery-stage"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
@@ -161,7 +202,7 @@ export default function TiltGallery() {
             alignItems: 'center',
             justifyContent: 'center',
             cursor: isDragging ? 'grabbing' : 'grab',
-            touchAction: 'none',
+            touchAction: 'pan-y',
             transform: 'translateY(-16px)',
           }}
         >
@@ -243,10 +284,12 @@ export default function TiltGallery() {
             // Depth calculation: -1 (far back) to +1 (front center)
             const depthFactor = (Math.cos(itemAngleRad) + 1) / 2;
 
-            // Dynamic scale: 0.68 (back) -> 1.08 (front)
-            const scale = 0.68 + depthFactor * 0.4;
-            const opacity = 0.32 + depthFactor * 0.68;
-            const blurAmount = (1 - depthFactor) * 2.8;
+            // Dynamic scale: 0.72 (back) -> 1.08 (front)
+            const scale = 0.72 + depthFactor * 0.36;
+            // Vibrant visibility: minimum 58% opacity instead of washed-out 32%
+            const opacity = 0.58 + depthFactor * 0.42;
+            // Subtle photographic micro-blur (max 0.6px instead of 2.8px) so all bottles stay sharp
+            const blurAmount = (1 - depthFactor) * 0.6;
 
             const zIndex = Math.round(depthFactor * 30);
             const isFront = depthFactor > 0.85;
@@ -254,6 +297,7 @@ export default function TiltGallery() {
             return (
               <div
                 key={item.id}
+                className="gallery-card"
                 onClick={() => rotateToIndex(idx)}
                 style={{
                   position: 'absolute',
@@ -267,6 +311,7 @@ export default function TiltGallery() {
                   cursor: 'pointer',
                   width: `${cardWidth}px`,
                   height: `${cardHeight}px`,
+                  willChange: 'transform',
                 }}
               >
                 {/*Image Card Body */}

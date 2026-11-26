@@ -9,6 +9,9 @@ const column2Reviews = [testimonials[2], testimonials[3], testimonials[5]];
 const loopColumn1 = [...column1Reviews, ...column1Reviews, ...column1Reviews];
 const loopColumn2 = [...column2Reviews, ...column2Reviews, ...column2Reviews];
 
+// Mobile unified stream containing all reviews for a single bottom-to-top flow
+const loopAllReviews = [...testimonials, ...testimonials, ...testimonials];
+
 // Compact Review Card component matching reference design
 function TestimonialCard({ item }: { item: Testimonial }) {
   const handle = `@${item.name.toLowerCase().replace(/[^a-z0-9]/g, '')}_${item.location.split(',')[0].toLowerCase().trim()}`;
@@ -209,15 +212,9 @@ export default function Testimonials() {
             maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
           }}
         >
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: 'clamp(1rem, 2vw, 1.6rem)',
-              height: '100%',
-            }}
-          >
-            {/* ── Column 1: Upward Infinite Stream ── */}
+          {/* ── Desktop: Dual-Column Infinite Scrolling Marquee Wall ── */}
+          <div className="testimonial-desktop-grid">
+            {/* Column 1: Upward Infinite Stream */}
             <div className="testimonial-column" style={{ overflow: 'hidden', position: 'relative' }}>
               <div className="testimonial-track-up">
                 {loopColumn1.map((review, i) => (
@@ -226,13 +223,22 @@ export default function Testimonials() {
               </div>
             </div>
 
-            {/* ── Column 2: Downward Infinite Stream ── */}
+            {/* Column 2: Downward Infinite Stream */}
             <div className="testimonial-column" style={{ overflow: 'hidden', position: 'relative' }}>
               <div className="testimonial-track-down">
                 {loopColumn2.map((review, i) => (
                   <TestimonialCard key={`col2-${review.id}-${i}`} item={review} />
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* ── Mobile: Single Unified Upward Stream (Bottom-to-Top) ── */}
+          <div className="testimonial-mobile-stream">
+            <div className="testimonial-track-mobile">
+              {loopAllReviews.map((review, i) => (
+                <TestimonialCard key={`mobile-${review.id}-${i}`} item={review} />
+              ))}
             </div>
           </div>
         </div>
